@@ -2,7 +2,7 @@
     {
      
         "watch": ["src"],
-        "ext": "js,json",
+        "ext": "js,json,ts,tsx",
         "exec": "npx ts-node ./src/index.ts"
     }
 

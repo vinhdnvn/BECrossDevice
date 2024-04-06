@@ -4,7 +4,7 @@ import { login, signup } from "../controllers/auth";
 
 const authRouters:Router = Router();
 
-authRouters.get("/login", login);
+authRouters.post("/login", login);
 authRouters.post("/signup", signup);
 
 
