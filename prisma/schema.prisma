@@ -100,13 +100,19 @@ model Group {
 
 model User {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  id_default Int
-  Name_string String
-  Email_string String
-  Adress_string String
-  Role_string String
-  Group      Group     @relation(fields: [group_id], references: [id])
-  group_id   String    @db.ObjectId
+  // id_default Int
+  name String
+  email String @unique
+  password String
+
+  createdAt DateTime @default(now())  
+  updatedAt DateTime @updatedAt
+  
+
+  // make role auto to be student
+  role String @default("student")
+  Group      Group?     @relation(fields: [group_id], references: [id])
+  group_id   String?   @db.ObjectId
   Comment    Comment[]
   Student    Student?
   Tutor      Tutor?
