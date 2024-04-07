@@ -7,17 +7,16 @@ import { BadRequestException } from "../exceptions/bad-request";
 import { ErrorCodes } from "../exceptions/root";
 import { UnprocessableEntity } from "../exceptions/validation";
 import { SignupSchema } from "../schema/users";
+import { NotFoundException } from "../exceptions/not-found";
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
   let user = await prismaClient.user.findFirst({ where: { email } });
   if (!user) {
-    throw Error("User not found");
-    // next(new BadRequestException("User not found", ErrorCodes.USER_NOT_FOUND));
+    throw new NotFoundException("User not found", ErrorCodes.USER_NOT_FOUND);
   }
   if (!compareSync(password, user.password)) {
-    // next(new BadRequestException("Invalid password", ErrorCodes.INCORRECT_PASSWORD));
-    throw Error("Invalid password");
+    throw new BadRequestException("Invalid password", ErrorCodes.INCORRECT_PASSWORD);
   }
   const token = jwt.sign(
     {
@@ -47,4 +46,10 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     },
   });
   res.json(user);
+};
+
+// me -> return the logged in user
+export const me = async (req: Request, res: Response, next: NextFunction) => {
+  //   const user = req.user as User
+  //   res.json(user);
 };
