@@ -19,4 +19,5 @@ export enum ErrorCodes {
   INCORRECT_PASSWORD = 1003,
   Unprocessable_entity = 2001,
   INTERNAL_ERROR = 3001,
+  UNAUTHORIZED = 4001,
 }

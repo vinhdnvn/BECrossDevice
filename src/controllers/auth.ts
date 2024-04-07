@@ -49,7 +49,6 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 // me -> return the logged in user
-export const me = async (req: Request, res: Response, next: NextFunction) => {
-  //   const user = req.user as User
-  //   res.json(user);
+export const me = async (req: any, res: Response, next: NextFunction) => {
+  res.json(req.user);
 };
