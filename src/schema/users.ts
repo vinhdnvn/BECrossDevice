@@ -8,4 +8,10 @@ export const SignupSchema = z.object({
   name: z.string().min(2),
 });
 
+export const CommentSchema = z.object({
+  content: z.string().min(1),
+  // postId: z.number(),
+  // userId: z.number(),
+});
+
 export type SignupInput = z.infer<typeof SignupSchema>;

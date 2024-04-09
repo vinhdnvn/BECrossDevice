@@ -13,65 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model User{
-//   id          String     @id @default(auto()) @map("_id") @db.ObjectId
-//   email   String   @unique
-//   image   String
-//   name    String
-//   posts   Post[]
-//   comments Comment[]
-//   groups  Group[]
-
-// }
-
-// model Post {
-//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   title  String
-//   text   String
-//   image  String
-//   usersId String @db.ObjectId
-//   users    User   @relation(fields: [usersId], references: [id])
-
-//   // comment relations
-//   comments Comment[]
-
-//   groupId  String @db.ObjectId
-//   group    Group  @relation(fields: [groupId], references: [id])
-// }
-
-// model Comment {
-//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   text   String
-//   image  String
-//   postId String @db.ObjectId
-//   post   Post   @relation(fields: [postId], references: [id])
-//   // user relations
-//   usersId String @db.ObjectId
-//   users    User   @relation(fields: [usersId], references: [id])
-
-// }
-
-// // create Group model have relationship many to many with user model
-// model Group {
-//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   name  String
-
-//   usersId String @db.ObjectId
-//   users    User   @relation(fields: [usersId], references: [id])
-
-//   posts Post[]
-
-// }
-
 model Post {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   // id_default      Int
@@ -87,11 +28,11 @@ model Post {
 }
 
 model Group {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   // id_default   Int
-  title_string String
-  User         User[]
-  Posts        Post[]
+  nameGroup String
+  User      User[]
+  Posts     Post[]
 }
 
 enum Role {
@@ -120,14 +61,14 @@ model User {
 }
 
 model Comment {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
   // id_default     Int
-  content_string String
-  image_buffer   String
-  Post           Post   @relation(fields: [post_id], references: [id])
-  post_id        String @db.ObjectId
-  User           User   @relation(fields: [user_id], references: [id])
-  user_id        String @db.ObjectId
+  content String
+  image   String?
+  Post    Post    @relation(fields: [post_id], references: [id])
+  post_id String  @db.ObjectId
+  User    User    @relation(fields: [user_id], references: [id])
+  user_id String  @db.ObjectId
 }
 
 model Student {

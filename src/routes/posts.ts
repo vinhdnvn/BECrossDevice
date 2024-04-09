@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, deletePost, getAllPosts, updatePost } from "../controllers/posts";
+import { createPost, deletePost, getAllPosts, getComments, getPostById, updatePost } from "../controllers/posts";
 import { errorHandler } from "../error-handler";
 import authMiddleware from "../middlewares/auth";
 const postRoutes: Router = Router();
@@ -14,5 +14,8 @@ postRoutes.get("/", errorHandler(getAllPosts));
 postRoutes.delete("/:id", [authMiddleware], errorHandler(deletePost));
 //update post
 postRoutes.put("/:id", [authMiddleware], errorHandler(updatePost));
+postRoutes.get("/:id", errorHandler(getPostById));
+// get all comments of a post
+postRoutes.get("/:postId/comment", getComments);
 
 export default postRoutes;

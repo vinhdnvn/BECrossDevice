@@ -45,3 +45,24 @@ export const updatePost = async (req: Request, res: Response) => {
   });
   res.json({ message: "Post updated", post });
 };
+
+export const getPostById = async (req: Request, res: Response) => {
+  const postId = req.params.id;
+  const post = await prismaClient.post.findUnique({
+    where: {
+      id: postId,
+    },
+  });
+  res.json(post);
+};
+
+// get all comments of a post
+export const getComments = async (req: Request, res: Response) => {
+  const postId = req.params.id;
+  const comments = await prismaClient.comment.findMany({
+    where: {
+      id: postId,
+    },
+  });
+  res.json(comments);
+};
