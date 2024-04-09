@@ -5,4 +5,5 @@ In case of using type res:Request, it will return an error of data type User err
 # Changing in DB
 
 Instead of using MongoAtlas to tracking and changing something in DB,
-Use npx prisma studio to change easily
+To change easily , use :
+`npx prisma studio`
