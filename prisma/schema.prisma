@@ -5,31 +5,110 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
+// model Post {
+//   id              String    @id @default(auto()) @map("_id") @db.ObjectId
+//   // id_default      Int
+//   image_buffering String?
+//   title           String
+//   content         String
+//   // answer_User     String
+//   questionContent String    @db.String // question content lấy từ nội dung sau khi quét từ ảnh 
+//   type            String?
+//   upvote          Int       @default(0)
+//   Group           Group?    @relation(fields: [group_id], references: [id])
+//   group_id        String?   @db.ObjectId
+//   Comment         Comment[]
+
+//   @@fulltext([questionContent, title])
+//   @@map("Post")
+// }
+
+// model Group {
+//   id        String @id @default(auto()) @map("_id") @db.ObjectId
+//   // id_default   Int
+//   nameGroup String
+//   User      User[]
+//   Posts     Post[]
+// }
+
+// enum Role {
+//   student
+//   tutor
+//   admin
+// }
+
+// model User {
+//   id       String @id @default(auto()) @map("_id") @db.ObjectId
+//   // id_default Int
+//   name     String
+//   email    String @unique
+//   password String
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   // make role auto to be student
+//   role     Role      @default(student)
+//   Group    Group?    @relation(fields: [group_id], references: [id])
+//   group_id String?   @db.ObjectId
+//   Comment  Comment[]
+//   Student  Student?
+//   Tutor    Tutor?
+// }
+
+// model Comment {
+//   id      String  @id @default(auto()) @map("_id") @db.ObjectId
+//   // id_default     Int
+//   content String
+//   image   String?
+//   Post    Post    @relation(fields: [post_id], references: [id])
+//   post_id String  @db.ObjectId
+//   User    User    @relation(fields: [user_id], references: [id])
+//   user_id String  @db.ObjectId
+// }
+
+// model Student {
+//   id        String @id @default(auto()) @map("_id") @db.ObjectId
+//   Class_int Int
+//   User      User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+//   user_id   String @unique @db.ObjectId
+// }
+
+// model Tutor {
+//   id           String @id @default(auto()) @map("_id") @db.ObjectId
+//   Rating_float Float
+//   Point_int    Int
+//   User         User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+//   user_id      String @unique @db.ObjectId
+// }
+
 model Post {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  // id_default      Int
+  id              String    @id @default(uuid()) // 
   image_buffering String?
-  title           String
+  title           String    @db.Text
   content         String
-  // answer_User     String
+  questionContent String    @db.Text
   type            String?
   upvote          Int       @default(0)
+  group_id        String?
   Group           Group?    @relation(fields: [group_id], references: [id])
-  group_id        String?   @db.ObjectId
   Comment         Comment[]
+
+  @@fulltext([questionContent, title])
+  @@map("post")
 }
 
 model Group {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  // id_default   Int
+  id        String @id @default(uuid())
   nameGroup String
   User      User[]
   Posts     Post[]
@@ -42,46 +121,41 @@ enum Role {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  // id_default Int
-  name     String
-  email    String @unique
-  password String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // make role auto to be student
-  role     Role      @default(student)
-  Group    Group?    @relation(fields: [group_id], references: [id])
-  group_id String?   @db.ObjectId
-  Comment  Comment[]
-  Student  Student?
-  Tutor    Tutor?
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  role      Role      @default(student)
+  group_id  String?
+  Group     Group?    @relation(fields: [group_id], references: [id])
+  Comment   Comment[]
+  Student   Student?
+  Tutor     Tutor?
 }
 
 model Comment {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  // id_default     Int
+  id      String  @id @default(uuid())
   content String
   image   String?
+  post_id String
   Post    Post    @relation(fields: [post_id], references: [id])
-  post_id String  @db.ObjectId
+  user_id String
   User    User    @relation(fields: [user_id], references: [id])
-  user_id String  @db.ObjectId
 }
 
 model Student {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String @id @default(uuid())
   Class_int Int
+  user_id   String @unique
   User      User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id   String @unique @db.ObjectId
 }
 
 model Tutor {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  id           String @id @default(uuid())
   Rating_float Float
   Point_int    Int
+  user_id      String @unique
   User         User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id      String @unique @db.ObjectId
 }

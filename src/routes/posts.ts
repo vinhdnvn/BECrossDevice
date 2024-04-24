@@ -1,5 +1,13 @@
 import { Router } from "express";
-import { createPost, deletePost, getAllPosts, getComments, getPostById, updatePost } from "../controllers/posts";
+import {
+  createPost,
+  deletePost,
+  getAllPosts,
+  getComments,
+  getPostById,
+  searchPosts,
+  updatePost,
+} from "../controllers/posts";
 import { errorHandler } from "../error-handler";
 import authMiddleware from "../middlewares/auth";
 const postRoutes: Router = Router();

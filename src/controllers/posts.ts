@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prismaClient } from "..";
+import exp from "constants";
 
 export const createPost = async (req: Request, res: Response) => {
   //  example type of Post : ["math", "science", "english"]
@@ -65,4 +66,18 @@ export const getComments = async (req: Request, res: Response) => {
     },
   });
   res.json(comments);
+};
+
+// search top 5 posts related/ similar to query
+export const searchPosts = async (req: Request, res: Response) => {
+  const query = req.query.q;
+  const posts = await prismaClient.post.findMany({
+    where: {
+      questionContent: {
+        contains: query as string,
+      },
+    },
+    take: 5,
+  });
+  res.json(posts);
 };
