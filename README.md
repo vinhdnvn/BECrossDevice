@@ -9,3 +9,13 @@ In case of using type `res:Request`, it will return an error of data type User e
 Instead of using MongoAtlas to tracking and changing something in DB,
 To change easily , use :
 `npx prisma studio`
+
+## GUIDE
+
+1. Install npm
+   `yarn`
+2. Migrate Schema
+   `npx prisma db push`
+
+3. Run project
+   `yarn start`
