@@ -31,7 +31,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
   SignupSchema.parse(req.body);
-  const { email, password, name } = req.body;
+  const { email, password, name, avatar, role } = req.body;
 
   let user = await prismaClient.user.findFirst({ where: { email } });
   if (user) {
@@ -42,9 +42,12 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     data: {
       email,
       name,
+      avatar,
+      role,
       password: hashSync(password, 10),
     },
   });
+
   res.json(user);
 };
 

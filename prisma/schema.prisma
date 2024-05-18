@@ -121,18 +121,25 @@ enum Role {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  role      Role      @default(student)
-  group_id  String?
-  Group     Group?    @relation(fields: [group_id], references: [id])
-  Comment   Comment[]
-  Student   Student?
-  Tutor     Tutor?
+  id           String    @id @default(uuid())
+  name         String
+  avatar       String?
+  email        String    @unique
+  password     String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  role         String
+  group_id     String?
+  // for tutor
+  Rating_float Float?
+  Point_int    Int?
+  // ======
+  // for student
+  Class_int    Int?
+  Group        Group?    @relation(fields: [group_id], references: [id])
+  Comment      Comment[]
+  // Student   Student?
+  // Tutor     Tutor?
 }
 
 model Comment {
@@ -145,17 +152,17 @@ model Comment {
   User    User    @relation(fields: [user_id], references: [id])
 }
 
-model Student {
-  id        String @id @default(uuid())
-  Class_int Int
-  user_id   String @unique
-  User      User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-}
+// model Student {
+//   id        String @id @default(uuid())
+//   Class_int Int
+//   user_id   String @unique
+//   User      User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+// }
 
-model Tutor {
-  id           String @id @default(uuid())
-  Rating_float Float
-  Point_int    Int
-  user_id      String @unique
-  User         User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-}
+// model Tutor {
+//   id           String @id @default(uuid())
+//   Rating_float Float
+//   Point_int    Int
+//   user_id      String @unique
+//   User         User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+// }
