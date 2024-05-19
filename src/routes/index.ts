@@ -6,6 +6,7 @@ import groupRouters from "./group";
 import { searchPosts } from "../controllers/posts";
 import searchRoutes from "./search";
 import userRoutes from "./user";
+import ocrRoutes from "./ocr";
 
 const rootRouter: Router = Router();
 
@@ -16,5 +17,7 @@ rootRouter.use("/group", groupRouters);
 // searching
 rootRouter.use("/search", searchRoutes);
 rootRouter.use("/users", userRoutes);
+// OCR
+rootRouter.use("/ocr", ocrRoutes);
 
 export default rootRouter;
