@@ -53,8 +53,17 @@ export const getPostById = async (req: Request, res: Response) => {
     where: {
       id: postId,
     },
+    //  with all Comment have in Post
+    include: {
+      Comment: true,
+    },
   });
-  res.json(post);
+  let postCommentCount;
+  if (post) {
+    postCommentCount = post.Comment.length;
+  }
+
+  res.json({ post, postCommentCount });
 };
 
 // get all comments of a post
