@@ -3,6 +3,6 @@ import { textRecognition } from "../controllers/ocr.controller";
 
 const ocrRoutes: Router = Router();
 
-ocrRoutes.get("/", textRecognition);
+ocrRoutes.post("/", textRecognition);
 
 export default ocrRoutes;
