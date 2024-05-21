@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
 import { prismaClient } from "..";
 import exp from "constants";
+import { NotFoundException } from "../exceptions/not-found";
+import { ErrorCodes } from "../exceptions/root";
 
-export const createPost = async (req: Request, res: Response) => {
+export const createPost = async (req: any, res: Response) => {
   //  example type of Post : ["math", "science", "english"]
 
   // Create a validator for this request
-
+  const user = req.user;
   const post = await prismaClient.post.create({
     data: {
       ...req.body,
+      user_id: user.id,
       type: req.body.type.join(","),
     },
   });
@@ -18,7 +21,13 @@ export const createPost = async (req: Request, res: Response) => {
 };
 
 export const getAllPosts = async (req: Request, res: Response) => {
-  const posts = await prismaClient.post.findMany();
+  const posts = await prismaClient.post.findMany({
+    include: {
+      Comment: true,
+      User: true,
+    },
+  });
+
   res.json(posts);
 };
 
@@ -68,10 +77,13 @@ export const getPostById = async (req: Request, res: Response) => {
 
 // get all comments of a post
 export const getComments = async (req: Request, res: Response) => {
-  const postId = req.params.id;
+  const postId = req.params.postId;
   const comments = await prismaClient.comment.findMany({
     where: {
-      id: postId,
+      post_id: postId,
+    },
+    include: {
+      User: true,
     },
   });
   res.json(comments);
