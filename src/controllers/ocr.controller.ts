@@ -98,7 +98,8 @@ export const textRecognition = async (req: Request, res: Response) => {
     const jsonString = completion.choices[0].message.content;
     if (jsonString) {
       const data = JSON.parse(jsonString);
-      res.json(data);
+      const response = JSON.parse(data.data);
+      res.json(response);
     } else {
       res.json("not ok");
     }
