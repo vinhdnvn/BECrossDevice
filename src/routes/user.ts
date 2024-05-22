@@ -10,7 +10,7 @@ import {
 
 const userRoutes: Router = Router();
 
-userRoutes.put("/", updateUser);
+userRoutes.put("/:userID", updateUser);
 
 // for Student
 userRoutes.get("/student", getAllStudent);

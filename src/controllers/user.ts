@@ -7,12 +7,12 @@ import { PrismaClient } from "@prisma/client";
 // import { User } from "@prisma/client";
 
 export const updateUser = async (req: any, res: Response) => {
-  const user = req.user;
+  const { userID } = req.params;
   const { name, avatar, email } = req.body;
   try {
     const updatedUser = await prismaClient.user.update({
       where: {
-        id: user.id,
+        id: userID,
       },
       data: {
         name,
@@ -22,7 +22,10 @@ export const updateUser = async (req: any, res: Response) => {
     });
     res.json(updatedUser);
   } catch (error) {
-    throw new NotFoundException("Error in Update User", ErrorCodes.INTERNAL_ERROR);
+    throw new NotFoundException(
+      "Error in Update User",
+      ErrorCodes.INTERNAL_ERROR
+    );
   }
 };
 
@@ -33,10 +36,12 @@ export const createComment = async (req: any, res: Response) => {
   try {
     const user = req.user;
     const { postId } = req.params;
-    const { content } = req.body;
+    const { content, image } = req.body;
+    console.log("image", image);
     const comment = await prismaClient.comment.create({
       data: {
         content: content,
+        image: image,
         User: {
           connect: {
             id: user.id,
@@ -57,6 +62,7 @@ export const createComment = async (req: any, res: Response) => {
       userId: user.id,
       postId: postId,
       content: content,
+      image: image,
       message: "Comment created successfully",
     });
   } catch (error) {
@@ -83,7 +89,10 @@ export const createGroup = async (req: any, res: Response) => {
     });
     res.json(group);
   } catch (error) {
-    throw new NotFoundException("Error in Group Create", ErrorCodes.USER_NOT_FOUND);
+    throw new NotFoundException(
+      "Error in Group Create",
+      ErrorCodes.USER_NOT_FOUND
+    );
   }
 };
 
@@ -114,7 +123,10 @@ export const getAllTutor = async (req: any, res: Response) => {
     });
     res.json(tutor);
   } catch (error) {
-    throw new NotFoundException("Error in tutor list", ErrorCodes.INTERNAL_ERROR);
+    throw new NotFoundException(
+      "Error in tutor list",
+      ErrorCodes.INTERNAL_ERROR
+    );
   }
 };
 
@@ -134,7 +146,10 @@ export const updateTutor = async (req: any, res: Response) => {
 
     res.json(tutor);
   } catch (error) {
-    throw new NotFoundException("Error in Tutor Update", ErrorCodes.INTERNAL_ERROR);
+    throw new NotFoundException(
+      "Error in Tutor Update",
+      ErrorCodes.INTERNAL_ERROR
+    );
   }
 };
 
@@ -147,7 +162,10 @@ export const getAllStudent = async (req: any, res: Response) => {
     });
     res.json(student);
   } catch (error) {
-    throw new NotFoundException("Error in Student list", ErrorCodes.USER_NOT_FOUND);
+    throw new NotFoundException(
+      "Error in Student list",
+      ErrorCodes.USER_NOT_FOUND
+    );
   }
 };
 
@@ -166,6 +184,9 @@ export const updatePointStudent = async (req: any, res: Response) => {
 
     res.json(student);
   } catch (error) {
-    throw new NotFoundException("Error in Student Update Point", ErrorCodes.USER_NOT_FOUND);
+    throw new NotFoundException(
+      "Error in Student Update Point",
+      ErrorCodes.USER_NOT_FOUND
+    );
   }
 };

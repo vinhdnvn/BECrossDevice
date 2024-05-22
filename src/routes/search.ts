@@ -24,6 +24,10 @@ searchRoutes.post("/", async (req: Request, res: Response) => {
           },
         ],
       },
+      include: {
+        Comment: true,
+        User: true,
+      },
     });
     res.json(posts);
   } catch (error) {
