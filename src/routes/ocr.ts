@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { textRecognition } from "../controllers/ocr.controller";
+import { textRecognition, textRecognitionAndSolvingProblem } from "../controllers/ocr.controller";
 
 const ocrRoutes: Router = Router();
 
-ocrRoutes.post("/", textRecognition);
+ocrRoutes.post("/", textRecognitionAndSolvingProblem);
+ocrRoutes.post("/text", textRecognition);
 
 export default ocrRoutes;

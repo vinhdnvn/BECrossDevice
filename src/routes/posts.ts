@@ -13,7 +13,7 @@ import authMiddleware from "../middlewares/auth";
 const postRoutes: Router = Router();
 
 // create new post
-postRoutes.post("/", errorHandler(createPost));
+postRoutes.post("/",[authMiddleware], errorHandler(createPost));
 // Nếu cần validate -> postRoutes.post("/",[authMiddleware] ,errorHandler(createPost));
 // or  postRoutes.post("/",[adminMiddleware, authMiddleware] ,errorHandler(createPost));
 // get all posts

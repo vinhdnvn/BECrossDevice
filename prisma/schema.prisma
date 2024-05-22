@@ -92,7 +92,7 @@ datasource db {
 // }
 
 model Post {
-  id              String    @id @default(uuid()) // 
+  id              String    @id @default(uuid())
   image_buffering String?
   title           String    @db.Text
   content         String
@@ -100,7 +100,10 @@ model Post {
   type            String?
   upvote          Int       @default(0)
   group_id        String?
+  user_id         String
   Group           Group?    @relation(fields: [group_id], references: [id])
+  User            User      @relation(fields: [user_id], references: [id])
+  // Comment         Comment[]
   Comment         Comment[]
 
   @@fulltext([questionContent, title])
@@ -130,16 +133,12 @@ model User {
   updatedAt    DateTime  @updatedAt
   role         String
   group_id     String?
-  // for tutor
   Rating_float Float?
   Point_int    Int?
-  // ======
-  // for student
   Class_int    Int?
   Group        Group?    @relation(fields: [group_id], references: [id])
   Comment      Comment[]
-  // Student   Student?
-  // Tutor     Tutor?
+  Posts        Post[] // Thiết lập quan hệ ngược lại với Post
 }
 
 model Comment {
