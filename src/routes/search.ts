@@ -4,7 +4,7 @@ import { escape } from "lodash";
 
 const searchRoutes: Router = Router();
 
-searchRoutes.get("/", async (req: Request, res: Response) => {
+searchRoutes.post("/", async (req: Request, res: Response) => {
   //  convert query to string  const { query } = req.body;
   const { query } = req.body;
 
