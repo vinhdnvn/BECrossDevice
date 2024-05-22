@@ -32,10 +32,7 @@ user:<input>
 }
 NO MORE OTHER RESPONSE `;
 
-export const textRecognitionAndSolvingProblem = async (
-  req: Request,
-  res: Response
-) => {
+export const textRecognitionAndSolvingProblem = async (req: Request, res: Response) => {
   const worker = await createWorker(["vie", "eng"]);
 
   //   img url in the req.body
@@ -70,10 +67,7 @@ export const textRecognitionAndSolvingProblem = async (
     }
     // res.json({ completion: completion.choices[0].message.content });
   } catch (error) {
-    throw new NotFoundException(
-      "Error in text recognition",
-      ErrorCodes.INTERNAL_ERROR
-    );
+    throw new NotFoundException("Error in text recognition", ErrorCodes.INTERNAL_ERROR);
   }
 };
 
@@ -101,12 +95,14 @@ export const textRecognition = async (req: Request, res: Response) => {
       ],
       max_tokens: 300,
     });
-    console.log(completion.choices[0]);
-    res.json({ completion: completion.choices[0].message.content });
+    const jsonString = completion.choices[0].message.content;
+    if (jsonString) {
+      const data = JSON.parse(jsonString);
+      res.json(data);
+    } else {
+      res.json("not ok");
+    }
   } catch (error) {
-    throw new NotFoundException(
-      "Error in text recognition",
-      ErrorCodes.INTERNAL_ERROR
-    );
+    throw new NotFoundException("Error in text recognition", ErrorCodes.INTERNAL_ERROR);
   }
 };
